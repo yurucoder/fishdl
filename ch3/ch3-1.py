@@ -1,6 +1,7 @@
 # 신경망 1 - 활성화 함수
 
-import numpy as np, matplotlib.pylab as plt
+import numpy as np
+import matplotlib.pylab as plt
 
 
 # 이 함수에서는 x가 실수(부동소수점)인데, 넘파이 지원에는 정수가 필요하다.

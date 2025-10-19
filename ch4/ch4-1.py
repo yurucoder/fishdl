@@ -1,9 +1,11 @@
 # 신경망 학습 1 - 손실 함수
 
-import sys, os, numpy as np
+from dataset.mnist import load_mnist
+import sys
+import os
+import numpy as np
 
 sys.path.append(os.getcwd())
-from dataset.mnist import load_mnist
 
 
 # 손실함수란: 신경망의 성능을 분석하기 위한 지표
@@ -45,7 +47,8 @@ print(
 )
 
 # 미니배치 학습
-(x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
+(x_train, t_train), (x_test, t_test) = load_mnist(
+    normalize=True, one_hot_label=True)
 
 print(x_train.shape)  # (60000, 784)
 print(t_train.shape)  # (60000, 10)
