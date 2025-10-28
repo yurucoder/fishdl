@@ -1,10 +1,7 @@
 # mnist.py: Load MNIST data, by Saitoh Koki. koki0702@gmail.com
 # https://github.com/oreilly-japan/deep-learning-from-scratch
 
-import os
-import pickle
-import urllib.request
-import gzip
+import os, gzip, pickle, urllib.request
 import numpy as np
 
 

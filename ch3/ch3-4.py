@@ -1,15 +1,12 @@
 # 신경망 4 - 손글씨 숫자 인식
 
-from common.functions import sigmoid, softmax
-from dataset.mnist import load_mnist
-import sys
-import os
-import time
-import pickle
+import sys, os, time, pickle
 import numpy as np
 from PIL import Image
 
 sys.path.append(os.getcwd())
+from common.functions import sigmoid, softmax
+from dataset.mnist import load_mnist
 
 
 # 이미 학습된 매개변수를 사용하여 학습 과정 없이 추론 과정만 구현
@@ -28,8 +25,7 @@ def img_show(img):
 def use_mnist_image():
     # 훈련된 이미지는 넘파이 객체로 피클 파일에 저장
     # (훈련 이미지, 훈련 레이블), (시험 이미지, 시험 레이블)
-    (x_train, t_train), (x_test, t_test) = load_mnist(
-        flatten=True, normalize=False)
+    (x_train, t_train), (x_test, t_test) = load_mnist(flatten=True, normalize=False)
 
     print(
         f"x_train.shape: {x_train.shape}",
@@ -112,10 +108,10 @@ def batch_process():
     accuracy_cnt = 0
 
     for i in range(0, len(x), batch_size):
-        x_batch = x[i: i + batch_size]
+        x_batch = x[i : i + batch_size]
         y_batch = predict(network, x_batch)
         p = np.argmax(y_batch, axis=1)
-        accuracy_cnt += np.sum(p == t[i: i + batch_size])
+        accuracy_cnt += np.sum(p == t[i : i + batch_size])
 
     print(f"Accuracy: {float(accuracy_cnt) / len(x)}")
 
