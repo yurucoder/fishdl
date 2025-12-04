@@ -2,6 +2,7 @@
 
 import sys, os
 import numpy as np
+from numpy.typing import NDArray
 
 sys.path.append(os.getcwd())
 from dataset.mnist import load_mnist
@@ -17,7 +18,7 @@ y2 = [0.1, 0.05, 0.1, 0.0, 0.05, 0.1, 0.0, 0.6, 0.0, 0.0]
 
 
 # 오차제곱합: 고딩 때 배운 분산과 유사
-def sum_squares_error(y, t):
+def sum_squares_error(y: NDArray, t: NDArray):
     # y가 신경망의 추정값, t가 정답(테스트)레이블이다.
     return 0.5 * np.sum((y - t) ** 2)
 
@@ -32,7 +33,7 @@ print(
 
 
 # 교차 엔트로피 오차: -Sum(t * Log(y)) 의 구현
-def cross_entropy_error_1(y, t):
+def cross_entropy_error_1(y: NDArray, t: NDArray):
     delta = 1e-7  # y가 0이 되어 -inf가 되지 않도록 방지함
     return -np.sum(t * np.log(y + delta))
 
@@ -57,11 +58,12 @@ batch_mask = np.random.choice(train_size, batch_size)
 x_batch = x_train[batch_mask]
 t_batch = t_train[batch_mask]
 
-np.random.choice(60000, 10)
+# 랜덤으로 고른 예시
+print(np.random.choice(60000, 10))
 
 
 # 배치용 교차 엔트로피 오차: 정답 레이블이 원-핫 인코딩인 경우
-def cross_entropy_error_2(y: np.ndarray, t: np.ndarray):
+def cross_entropy_error_2(y: NDArray, t: NDArray):
     if y.ndim == 1:
         t = t.reshape(1, t.size)
         y = y.reshape(1, y.size)
@@ -71,7 +73,7 @@ def cross_entropy_error_2(y: np.ndarray, t: np.ndarray):
 
 
 # 배치용 교차 엔트로피 오차: 정답 레이블이 원-핫 인코딩이 아닌 경우
-def cross_entropy_error_3(y: np.ndarray, t: np.ndarray):
+def cross_entropy_error_3(y: NDArray, t: NDArray):
     if y.ndim == 1:
         t = t.reshape(1, t.size)
         y = y.reshape(1, y.size)

@@ -3,6 +3,7 @@
 
 import os, gzip, pickle, urllib.request
 import numpy as np
+from numpy.typing import NDArray
 
 
 # Constants
@@ -93,7 +94,7 @@ def init_mnist():
     print("Done!")
 
 
-def _change_one_hot_label(X: np.ndarray):
+def _change_one_hot_label(X: NDArray):
     T = np.zeros((X.size, 10))
     for idx, row in enumerate(T):
         row[X[idx]] = 1

@@ -1,6 +1,7 @@
 # 신경망 3 - 출력층 설계하기
 
 import numpy as np
+from numpy.typing import NDArray
 
 
 # 분류와 회귀
@@ -15,7 +16,7 @@ import numpy as np
 a = np.array([0.3, 2.9, 4.0])
 
 
-def softmax1(a):
+def softmax1(a: NDArray):
     exp_a = np.exp(a)  # e^a 배열
     sum_exp_a = np.sum(exp_a)  # e^a 의 총합
     y = exp_a / sum_exp_a  # 소프트맥스
@@ -29,7 +30,7 @@ print(np.exp(a) / np.sum(np.exp(a)))  # [nan, nan, nan]
 
 
 # 수식을 변형하며 오버플로가 나지 않게 조정하였다.
-def softmax2(a):
+def softmax2(a: NDArray):
     c = np.max(a)
     exp_a = np.exp(a - c)  # 오버플로 대책
     sum_exp_a = np.sum(exp_a)

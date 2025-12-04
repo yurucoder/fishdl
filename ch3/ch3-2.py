@@ -2,6 +2,7 @@
 
 import sys, os
 import numpy as np
+from numpy.typing import NDArray
 
 sys.path.append(os.getcwd())
 from common.functions import sigmoid, identity_function
@@ -59,7 +60,7 @@ def init_network():
     }
 
 
-def forward(network, x):
+def forward(network: dict[str, NDArray], x: NDArray):
     W1, W2, W3 = network["W1"], network["W2"], network["W3"]
     b1, b2, b3 = network["b1"], network["b2"], network["b3"]
 
