@@ -30,3 +30,16 @@ def softmax(a: NDArray):
     y = exp_a / sum_exp_a
 
     return y
+
+
+# 교차 엔트로피 오차
+def cross_entropy_error(y: NDArray, t: NDArray):
+    if y.ndim == 1:
+        t = t.reshape(1, t.size)
+        y = y.reshape(1, y.size)
+
+    if t.size == y.size:
+        t = t.argmax(axis=1)
+
+    batch_size = y.shape[0]
+    return -np.sum(np.log(y[np.arange(batch_size), t] + 1e-7)) / batch_size
