@@ -2,8 +2,7 @@
 
 import numpy as np
 from numpy.typing import NDArray
-
-# import matplotlib.pylab as plt
+import matplotlib.pylab as plt
 
 
 # 나쁜 구현의 예
@@ -34,10 +33,10 @@ def function_1(x):
 
 x = np.arange(0.0, 20.0, 0.1)  # 0에서 20까지 0.1 간격의 배열 x (20 미포함)
 y = function_1(x)
-# plt.xlabel("x")
-# plt.ylabel("f(x)")
-# plt.plot(x, y)
-# plt.show()
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.plot(x, y)
+plt.show()
 
 
 # 수치 미분을 한 해가 해석적 해와 매우 근사한 것을 알 수 있다
