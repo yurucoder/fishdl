@@ -38,7 +38,7 @@ print("최댓값의 인덱스:", np.argmax(p))
 print("손실 함수 결과:", net.loss(x, t))
 
 # t에 대한 x의 손실함수 f(W)를 가중치 레이블 W에 대하여 편미분하자
-f = lambda w: net.loss(x, t)
+f = lambda W: net.loss(x, t)
 
 # 기울기를 구하여 가중치 W를 평가하자
 dW = numerical_gradient(f, net.W)

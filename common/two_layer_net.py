@@ -48,8 +48,9 @@ class TwoLayerNet:
 
     # 가중치 매개변수의 기울기를 구한다
     def numerical_gradient(self, x: NDArray, t: NDArray):
-        loss_W = lambda _: self.loss(x, t)
+        loss_W = lambda W: self.loss(x, t)
 
+        # W는 더미이지만, self.params[] 부분이 레퍼런스 전달이기 때문에 predict() 결과가 바뀐다.
         return {
             "W1": numerical_gradient(loss_W, self.params["W1"]),
             "b1": numerical_gradient(loss_W, self.params["b1"]),
