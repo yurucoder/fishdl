@@ -1,7 +1,9 @@
 import sys, os
+import numpy as np
+from numpy.typing import NDArray
 
 sys.path.append(os.getcwd())
-from common.functions import *
+from common.layers import *
 from common.gradient import numerical_gradient
 
 
@@ -39,7 +41,7 @@ class TwoLayerNet:
         return cross_entropy_error(y, t)
 
     # 정확도를 구한다
-    def accuracy(self, x: NDArray, y: NDArray):
+    def accuracy(self, x: NDArray, t: NDArray):
         y = self.predict(x)
         y = np.argmax(y, axis=1)
         t = np.argmax(t, axis=1)

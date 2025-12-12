@@ -49,7 +49,12 @@ class Affine:
         self.dW = None
         self.db = None
 
+        self.original_x_shape = None
+
     def forward(self, x: NDArray):
+        self.original_x_shape = x.shape
+        x = x.reshape(x.shape[0], -1)
+
         self.x = x
         out = np.dot(x, self.W) + self.b
 
@@ -60,6 +65,7 @@ class Affine:
         self.dW = np.dot(self.x.T, dout)
         self.db = np.sum(dout, axis=0)
 
+        dx = dx.reshape(*self.original_x_shape)
         return dx
 
 
@@ -78,7 +84,12 @@ class SoftmaxWithLoss:
         return self.loss
 
     def backward(self, dout=1):
-        batch_size = self.t.shape
-        dx = (self.y - self.t) / batch_size
+        batch_size = self.t.shape[0]
+        if self.t.size == self.y.size:
+            dx = (self.y - self.t) / batch_size
+        else:
+            dx = self.y.copy()
+            dx[np.arange(batch_size), self.t] -= 1
+            dx = dx / batch_size
 
         return dx

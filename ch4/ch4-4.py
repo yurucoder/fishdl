@@ -25,14 +25,15 @@ import numpy as np
 
 sys.path.append(os.getcwd())
 from dataset.mnist import load_mnist
-from common.networks import TwoLayerNet
+from common.functions import *
+from network import TwoLayerNet
 
 
 # 샘플 데이터 다운로드
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
 
 # 하이퍼파라미터
-ITERS_NUM = 1000  # 반복 횟수
+ITERS_NUM = 10000  # 반복 횟수
 TRAIN_SIZE = x_train.shape[0]  # 학습 데이터 크기
 BATCH_SIZE = 100  # 미니배치 크기
 LEARNING_RATE = 0.1  # 학습률
@@ -55,7 +56,6 @@ for i in range(ITERS_NUM):
 
     # 기울기 계산
     grad = network.numerical_gradient(x_batch, t_batch)
-    # grad = network.gradient(x_batch, t_batch)  # 성능 개선판!
 
     # 매개변수 갱신
     for key in ("W1", "b1", "W2", "b2"):
