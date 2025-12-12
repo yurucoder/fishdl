@@ -25,7 +25,7 @@ import numpy as np
 
 sys.path.append(os.getcwd())
 from dataset.mnist import load_mnist
-from common.two_layer_net import TwoLayerNet
+from common.networks import TwoLayerNet
 
 
 # 샘플 데이터 다운로드
