@@ -1,6 +1,5 @@
 import sys, os
 import numpy as np
-from numpy.typing import NDArray
 from collections import OrderedDict
 
 sys.path.append(os.getcwd())
@@ -35,17 +34,17 @@ class TwoLayerNet:
 
         self.lastLayer = SoftmaxWithLoss()
 
-    def predict(self, x: NDArray):
+    def predict(self, x):
         for layer in self.layers.values():
             x = layer.forward(x)
 
         return x
 
-    def loss(self, x: NDArray, t: NDArray):
+    def loss(self, x, t):
         y = self.predict(x)
         return self.lastLayer.forward(y, t)
 
-    def accuracy(self, x: NDArray, t: NDArray):
+    def accuracy(self, x, t):
         y = self.predict(x)
         y = np.argmax(y, axis=1)
         if t.ndim != 1:
@@ -54,7 +53,7 @@ class TwoLayerNet:
         accuracy = np.sum(y == t) / float(x.shape[0])
         return accuracy
 
-    def numerical_gradient(self, x: NDArray, t: NDArray):
+    def numerical_gradient(self, x, t):
         loss_W = lambda W: self.loss(x, t)
 
         # W는 더미이지만, self.params[] 부분이 레퍼런스 전달이기 때문에 predict() 결과가 바뀐다.
@@ -65,7 +64,7 @@ class TwoLayerNet:
             "b2": numerical_gradient(loss_W, self.params["b2"]),
         }
 
-    def gradient(self, x: NDArray, t: NDArray):
+    def gradient(self, x, t):
         # 순전파
         self.loss(x, t)
 

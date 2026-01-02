@@ -1,8 +1,7 @@
 import numpy as np
-from numpy.typing import NDArray
 
 
-def _numerical_gradient_1d(f, x: NDArray):
+def _numerical_gradient_1d(f, x):
     h = 1e-4  # 0.0001
     grad = np.zeros_like(x)
 
@@ -20,7 +19,7 @@ def _numerical_gradient_1d(f, x: NDArray):
     return grad
 
 
-def numerical_gradient_2d(f, X: NDArray):
+def numerical_gradient_2d(f, X):
     if X.ndim == 1:
         return _numerical_gradient_1d(f, X)
     else:
@@ -32,7 +31,7 @@ def numerical_gradient_2d(f, X: NDArray):
         return grad
 
 
-def numerical_gradient(f, x: NDArray):
+def numerical_gradient(f, x):
     h = 1e-4  # 0.0001
     grad = np.zeros_like(x)
 

@@ -1,7 +1,6 @@
 # 신경망 학습 2 - 수치 미분
 
 import numpy as np
-from numpy.typing import NDArray
 import matplotlib.pylab as plt
 
 
@@ -13,7 +12,7 @@ def numerical_diff_1(f, x):
 
 
 # 개선된 구현
-def numerical_diff(f, x: int):
+def numerical_diff(f, x):
     h = 1e-4  # 일반적으로 1e-4 정도면 좋은 수치가 나온다고 한다.
     # f(x+h) - f(x-h) 는 중심차분/중앙차분 이라고 부르며, x에 더 가까운 수치이다.
     return (f(x + h) - f(x - h)) / (2 * h)
@@ -48,7 +47,7 @@ print(
 
 
 # 편미분을 위한 함수: f(x1, x2) = x0^2 + x1^2
-def function_2(x: NDArray):
+def function_2(x):
     # return x[0] ** 2 + x[1] ** 2
     return np.sum(x**2)
 
@@ -71,7 +70,7 @@ print(
 )
 
 
-def numerical_gradient(f, x: NDArray):
+def numerical_gradient(f, x):
     h = 1e-4  # 0.0001
     grad = np.zeros_like(x)
 
@@ -106,7 +105,7 @@ print(
 
 
 # 경사법 구현: 100번 루프 후 가장 최적화된 x값을 리턴한다.
-def gradient_descent(f, init_x: NDArray, lr=0.01, step_num=100):
+def gradient_descent(f, init_x, lr=0.01, step_num=100):
     x = init_x
 
     for _ in range(step_num):

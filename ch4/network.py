@@ -1,9 +1,8 @@
 import sys, os
 import numpy as np
-from numpy.typing import NDArray
 
 sys.path.append(os.getcwd())
-from common.layers import *
+from common.functions import sigmoid, softmax, cross_entropy_error
 from common.gradient import numerical_gradient
 
 
@@ -11,9 +10,9 @@ from common.gradient import numerical_gradient
 class TwoLayerNet:
     def __init__(
         self,
-        input_size: int,  # 입력층의 뉴런 수
-        hidden_size: int,  # 은닉층의 뉴런 수
-        output_size: int,  # 출력층의 뉴런 수
+        input_size,  # 입력층의 뉴런 수
+        hidden_size,  # 은닉층의 뉴런 수
+        output_size,  # 출력층의 뉴런 수
         weight_init_std=0.01,
     ):
         self.params = {
@@ -24,7 +23,7 @@ class TwoLayerNet:
         }
 
     # 추론 실행
-    def predict(self, x: NDArray):
+    def predict(self, x):
         W1, W2 = self.params["W1"], self.params["W2"]
         b1, b2 = self.params["b1"], self.params["b2"]
 
@@ -36,12 +35,12 @@ class TwoLayerNet:
         return y
 
     # 손실함수 값을 구함
-    def loss(self, x: NDArray, t: NDArray):
+    def loss(self, x, t):
         y = self.predict(x)
         return cross_entropy_error(y, t)
 
     # 정확도를 구한다
-    def accuracy(self, x: NDArray, t: NDArray):
+    def accuracy(self, x, t):
         y = self.predict(x)
         y = np.argmax(y, axis=1)
         t = np.argmax(t, axis=1)
@@ -49,7 +48,7 @@ class TwoLayerNet:
         return np.sum(y == t) / float(x.shape[0])
 
     # 가중치 매개변수의 기울기를 구한다
-    def numerical_gradient(self, x: NDArray, t: NDArray):
+    def numerical_gradient(self, x, t):
         loss_W = lambda W: self.loss(x, t)
 
         # W는 더미이지만, self.params[] 부분이 레퍼런스 전달이기 때문에 predict() 결과가 바뀐다.

@@ -5,7 +5,6 @@ import numpy as np
 
 sys.path.append(os.getcwd())
 from dataset.mnist import load_mnist
-from common.layers import *
 from network import TwoLayerNet
 
 

@@ -1,9 +1,8 @@
 import sys, os
 import numpy as np
-from numpy.typing import NDArray
 
 sys.path.append(os.getcwd())
-from common.functions import *
+from common.functions import softmax, cross_entropy_error
 
 
 class Relu:
@@ -12,7 +11,7 @@ class Relu:
         self.mask = None
 
     # 0 이하는 0으로, 0 이상은 값 그대로
-    def forward(self, x: NDArray):
+    def forward(self, x):
         self.mask = x <= 0
         out = x.copy()
         out[self.mask] = 0
@@ -42,7 +41,7 @@ class Sigmoid:
 
 
 class Affine:
-    def __init__(self, W: NDArray, b: NDArray):
+    def __init__(self, W, b):
         self.W = W
         self.b = b
         self.x = None
@@ -51,7 +50,7 @@ class Affine:
 
         self.original_x_shape = None
 
-    def forward(self, x: NDArray):
+    def forward(self, x):
         self.original_x_shape = x.shape
         x = x.reshape(x.shape[0], -1)
 
@@ -60,7 +59,7 @@ class Affine:
 
         return out
 
-    def backward(self, dout: NDArray):
+    def backward(self, dout):
         dx = np.dot(dout, self.W.T)
         self.dW = np.dot(self.x.T, dout)
         self.db = np.sum(dout, axis=0)
@@ -77,7 +76,7 @@ class SoftmaxWithLoss:
         self.y = None
         self.t = None
 
-    def forward(self, x: NDArray, t: NDArray):
+    def forward(self, x, t):
         self.t = t
         self.y = softmax(x)
         self.loss = cross_entropy_error(self.y, self.t)
