@@ -3,7 +3,6 @@
 
 import os, gzip, pickle, urllib.request
 import numpy as np
-from numpy.typing import NDArray
 
 
 # Constants
@@ -31,7 +30,7 @@ img_dim = (1, 28, 28)
 img_size = 784
 
 
-def _download(file_name: str):
+def _download(file_name):
     file_path = dataset_dir + "/" + file_name
 
     if os.path.exists(file_path):
@@ -53,7 +52,7 @@ def download_mnist():
         _download(v)
 
 
-def _load_label(file_name: str):
+def _load_label(file_name):
     file_path = dataset_dir + "/" + file_name
 
     print("Converting " + file_name + " to NumPy Array ...")
@@ -64,7 +63,7 @@ def _load_label(file_name: str):
     return labels
 
 
-def _load_img(file_name: str):
+def _load_img(file_name):
     file_path = dataset_dir + "/" + file_name
 
     print("Converting " + file_name + " to NumPy Array ...")
@@ -94,7 +93,7 @@ def init_mnist():
     print("Done!")
 
 
-def _change_one_hot_label(X: NDArray):
+def _change_one_hot_label(X):
     T = np.zeros((X.size, 10))
     for idx, row in enumerate(T):
         row[X[idx]] = 1
@@ -107,7 +106,7 @@ def load_mnist(normalize=True, flatten=True, one_hot_label=False):
         init_mnist()
 
     with open(save_file, "rb") as f:
-        dataset: dict[str, NDArray] = pickle.load(f)
+        dataset = pickle.load(f)
 
     if normalize:
         for key in (TRAIN_IMG, TEST_IMG):

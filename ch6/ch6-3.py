@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 sys.path.append(os.getcwd())
 from dataset.mnist import load_mnist
-from common.layers import MultiLayerNet
+from common.network import MultiLayerNet
 from common.optimizer import SGD
 
 
