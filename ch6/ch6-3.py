@@ -1,4 +1,4 @@
-# 학습 관련 기술들 3 - 오버피팅 해소
+# 학습 관련 기술들 3 - 오버피팅 해소: 가중치 감소
 
 import os, sys
 import numpy as np

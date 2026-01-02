@@ -1,4 +1,5 @@
-# coding: utf-8
+# 학습 관련 기술들 4 - 오버피팅 해소: 드롭아웃
+
 import os, sys
 import numpy as np
 import matplotlib.pyplot as plt
