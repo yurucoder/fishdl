@@ -1,4 +1,4 @@
-# 저자가 구현해 둔 학습 코드
+# 저자가 구현해 둔 신경망 학습 코드
 
 import sys, os
 import numpy as np

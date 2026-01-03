@@ -1,3 +1,5 @@
+# 저자가 구현해 둔 수치 미분 코드
+
 import numpy as np
 
 

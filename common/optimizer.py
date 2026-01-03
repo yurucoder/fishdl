@@ -1,3 +1,5 @@
+# 저자가 구현해 둔 최적화 기법 코드
+
 import numpy as np
 
 

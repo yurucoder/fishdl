@@ -1,24 +1,24 @@
-# mnist.py: Load MNIST data, by Saitoh Koki. koki0702@gmail.com
-# https://github.com/oreilly-japan/deep-learning-from-scratch
+# 저자가 구현해 둔 MNIST 다운로드 코드
 
-import os, gzip, pickle, urllib.request
+try:
+    import urllib.request
+except ImportError:
+    raise ImportError("You should use Python 3.x")
+import os.path
+import gzip
+import pickle
+import os
 import numpy as np
 
-
-# Constants
-TRAIN_IMG = "train_img"
-TRAIN_LABEL = "train_label"
-TEST_IMG = "test_img"
-TEST_LABEL = "test_label"
 
 # url_base = 'http://yann.lecun.com/exdb/mnist/'
 url_base = "https://ossci-datasets.s3.amazonaws.com/mnist/"  # mirror site
 
 key_file = {
-    TRAIN_IMG: "train-images-idx3-ubyte.gz",
-    TRAIN_LABEL: "train-labels-idx1-ubyte.gz",
-    TEST_IMG: "t10k-images-idx3-ubyte.gz",
-    TEST_LABEL: "t10k-labels-idx1-ubyte.gz",
+    "train_img": "train-images-idx3-ubyte.gz",
+    "train_label": "train-labels-idx1-ubyte.gz",
+    "test_img": "t10k-images-idx3-ubyte.gz",
+    "test_label": "t10k-labels-idx1-ubyte.gz",
 }
 
 dataset_dir = os.path.dirname(os.path.abspath(__file__))
@@ -76,12 +76,13 @@ def _load_img(file_name):
 
 
 def _convert_numpy():
-    return {
-        TRAIN_IMG: _load_img(key_file[TRAIN_IMG]),
-        TRAIN_LABEL: _load_label(key_file[TRAIN_LABEL]),
-        TEST_IMG: _load_img(key_file[TEST_IMG]),
-        TEST_LABEL: _load_label(key_file[TEST_LABEL]),
-    }
+    dataset = {}
+    dataset["train_img"] = _load_img(key_file["train_img"])
+    dataset["train_label"] = _load_label(key_file["train_label"])
+    dataset["test_img"] = _load_img(key_file["test_img"])
+    dataset["test_label"] = _load_label(key_file["test_label"])
+
+    return dataset
 
 
 def init_mnist():
@@ -102,6 +103,20 @@ def _change_one_hot_label(X):
 
 
 def load_mnist(normalize=True, flatten=True, one_hot_label=False):
+    """MNISTデータセットの読み込み
+
+    Parameters
+    ----------
+    normalize : 画像のピクセル値を0.0~1.0に正規化する
+    one_hot_label :
+        one_hot_labelがTrueの場合、ラベルはone-hot配列として返す
+        one-hot配列とは、たとえば[0,0,1,0,0,0,0,0,0,0]のような配列
+    flatten : 画像を一次元配列に平にするかどうか
+
+    Returns
+    -------
+    (訓練画像, 訓練ラベル), (テスト画像, テストラベル)
+    """
     if not os.path.exists(save_file):
         init_mnist()
 
@@ -109,21 +124,21 @@ def load_mnist(normalize=True, flatten=True, one_hot_label=False):
         dataset = pickle.load(f)
 
     if normalize:
-        for key in (TRAIN_IMG, TEST_IMG):
+        for key in ("train_img", "test_img"):
             dataset[key] = dataset[key].astype(np.float32)
             dataset[key] /= 255.0
 
     if one_hot_label:
-        dataset[TRAIN_LABEL] = _change_one_hot_label(dataset[TRAIN_LABEL])
-        dataset[TEST_LABEL] = _change_one_hot_label(dataset[TEST_LABEL])
+        dataset["train_label"] = _change_one_hot_label(dataset["train_label"])
+        dataset["test_label"] = _change_one_hot_label(dataset["test_label"])
 
     if not flatten:
-        for key in (TRAIN_IMG, TEST_IMG):
+        for key in ("train_img", "test_img"):
             dataset[key] = dataset[key].reshape(-1, 1, 28, 28)
 
-    return (dataset[TRAIN_IMG], dataset[TRAIN_LABEL]), (
-        dataset[TEST_IMG],
-        dataset[TEST_LABEL],
+    return (dataset["train_img"], dataset["train_label"]), (
+        dataset["test_img"],
+        dataset["test_label"],
     )
 
 

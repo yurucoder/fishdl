@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 
 sys.path.append(os.getcwd())
 from dataset.mnist import load_mnist
-from common.util import shuffle_dataset
 from common.trainer import Trainer
 from common.network import MultiLayerNet
 
@@ -16,6 +15,27 @@ from common.network import MultiLayerNet
 # 검증 데이터가 데이터셋에 포함되지 않은 경우 다음과 같이 훈련 데이터 내에서 골라내면 된다.
 
 (x_train, t_train), (x_test, t_test) = load_mnist()
+
+
+# 저자가 구현한 훈련 데이터와 학습 데이터 섞는 함수
+def shuffle_dataset(x, t):
+    """データセットのシャッフルを行う
+
+    Parameters
+    ----------
+    x : 訓練データ
+    t : 教師データ
+
+    Returns
+    -------
+    x, t : シャッフルを行った訓練データと教師データ
+    """
+    permutation = np.random.permutation(x.shape[0])
+    x = x[permutation, :] if x.ndim == 2 else x[permutation, :, :, :]
+    t = t[permutation]
+
+    return x, t
+
 
 # 훈련 데이터를 뒤섞는다
 x_train, t_train = shuffle_dataset(x_train, t_train)
@@ -64,15 +84,9 @@ for _ in range(optimization_trial):
     lr = 10 ** np.random.uniform(-6, -2)
 
     val_acc_list, train_acc_list = __train(lr, weight_decay)
-    print(
-        "val acc:"
-        + str(val_acc_list[-1])
-        + " | lr:"
-        + str(lr)
-        + ", weight decay:"
-        + str(weight_decay)
-    )
-    key = "lr:" + str(lr) + ", weight decay:" + str(weight_decay)
+    print(f"val acc:{val_acc_list[-1]} | lr:{lr}, weight decay:{weight_decay}")
+
+    key = f"lr{lr}:, weight decay:{weight_decay}"
     results_val[key] = val_acc_list
     results_train[key] = train_acc_list
 
@@ -86,7 +100,7 @@ i = 0
 for key, val_acc_list in sorted(
     results_val.items(), key=lambda x: x[1][-1], reverse=True
 ):
-    print("Best-" + str(i + 1) + "(val acc:" + str(val_acc_list[-1]) + ") | " + key)
+    print(f"Best-{i+1}(val acc:{val_acc_list[-1]}) | {key}")
 
     plt.subplot(row_num, col_num, i + 1)
     plt.title("Best-" + str(i + 1))
